@@ -10,8 +10,6 @@
 #ifndef BFSerial_H_
 #define BFSerial_H_
 
-#include <Arduino.h>
-
 void SERCOM1_USART_init(void);
 void SERCOM1_USART_begin(void);
 void SERCOM1_USART_end(void);
