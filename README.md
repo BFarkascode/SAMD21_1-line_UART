@@ -38,5 +38,6 @@ While within STM32 it merely takes one bit flipped (CR2 register’s 15th bit) t
 
 ## Explanations
 One thing is that I have decided to write all functions as blocking, thus no IRQs are used apart from error detection. This simplified timing and synching the two devices I was hooking up together. Obviously, this is not an efficient solution.
-Apart from that, there isn’t much to explain here, the project is rather straightforward.
+Second thing is that I am sending over sequences of bytes to my receiver as commands. This is necessary in order to avoid any rubbish being captured by the receiver as valid data (that is, the receiver will only react if it receives the exact same sequence as what the master sends over). Mind, above is only the master device code, the receiver is not provided.
+Apart from these, there isn’t much to explain here. The project is rather straightforward.
 
