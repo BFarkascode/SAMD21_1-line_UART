@@ -1,20 +1,14 @@
 /*
-Both Tx and Rx are blocking!
-IRQs are only used to detect errors.
-This is fine since wwithin the BootMaster, we don't do anything in parallel to communicating. A slower coms is actually preferred due to stability and reliability.
-Okay, so unfortunately, if we don't use RXC/TXC, the delays between succssive bytes becomes intolerably great.
-RX/TX has the RXBuffer and TxBuffer in the Uart.h library
-
-
-v2
-V2 changes the pin flip from PA10/11 to PA16/18
-Cleaned up code for better readability
-
-
-*/
+ * Created: 10/04/2024 10:12:22
+ * Author: BalazsFarkas
+ * Project: SAMD21_1-line_UART
+ * Processor: SAMD21G18A
+ * File: CustomSerial.cpp
+ * Program version: 1.0
+ */ 
 
 #include "arduino.h"
-#include <C:\Users\BalazsFarkas(Lumiwor\Documents\Arduino\BootMaster_SDcard_DTRTA_v9\BFSerial_v2.h>
+#include <CustomSerial.h>
 
 //1)SERCOM USART init
 void SERCOM1_USART_init(void) {
