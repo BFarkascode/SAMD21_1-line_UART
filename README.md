@@ -3,10 +3,13 @@
 
 ## General description
 Below is a mini project to show, how to implement a 1-line serial communication interface on a SAMD21 using bare metal programming.
+
 To be fair, initially I was planning to use the SERCOM libraries that are provided within the Arduino environment for my projects (more precisely, the Adafruit training from here: https://learn.adafruit.com/using-atsamd21-sercom-to-add-more-spi-i2c-serial-ports/creating-a-new-serial ). And then while I was implementing my own serials following the description, I have found two massive bugs:
-1)Calling the “Serial.begin” function on a custom serial resets the PMUX of its pins, even if you have assigned them already. I tested it and indeed, the PMUX values for the pins we wish to use with our custom SERCOM will change when we call the “Serial.begin”: PA16 and PA18 will change from MUX 0x2 – peripheral C - to 0x4 – peripheral E. This is very problematic since we don’t want libraries changing our pin definitions unless we specifically tell them to. Of note, this does not apply to the official Serial1 since that one resets to SERCOM using PA10 and PA11 properly.
-2)A custom “Serial” will not have the same interrupt behaviour as the official Serial1. What I mean is that Serial1 – once a Tx has finished – will shut off the UART bus instead of keeping it idle when it encounters a “delay”. Any custom serial bus that is defined by hand will keep the bus idle instead.
+
+1) Calling the “Serial.begin” function on a custom serial resets the PMUX of its pins, even if you have assigned them already. I tested it and indeed, the PMUX values for the pins we wish to use with our custom SERCOM will change when we call the “Serial.begin”: PA16 and PA18 will change from MUX 0x2 – peripheral C - to 0x4 – peripheral E. This is very problematic since we don’t want libraries changing our pin definitions unless we specifically tell them to. Of note, this does not apply to the official Serial1 since that one resets to SERCOM using PA10 and PA11 properly.
+2) A custom “Serial” will not have the same interrupt behaviour as the official Serial1. What I mean is that Serial1 – once a Tx has finished – will shut off the UART bus instead of keeping it idle when it encounters a “delay”. Any custom serial bus that is defined by hand will keep the bus idle instead.
 Now, these are pretty nasty bugs, and I am pretty sure they aren’t the only ones I would need to tackle if I am to work with SAMs. (Of note, I got rid of the second bug just be rearranging my code so maybe I mucked something up. Nevertheless, my conclusion about library reliability stands…)
+
 As such, I have decided to replace the “serial” library from Arduino and write my own instead.
 So, what did I want to have in the end? I wanted an init function for the UART, a write function that takes in a hex value and a read function. Also, as a small extra, I wanted to be able to ditch one of the UART lines and make our own 1-line UART coms system by switching the Tx and Rx pins, if possible (it is).
 
