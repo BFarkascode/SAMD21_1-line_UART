@@ -11,8 +11,7 @@
 */
 
 #include <stdlib.h>
-//#include <CustomSerial.h>
-#include <C:\Users\BalazsFarkas(Lumiwor\Documents\Arduino\BootMaster_SDcard_DTRTA_v9\BFSerial_v2.h>
+#include <CustomSerial.h>
 
 //------------For incoming bytes-----------//
 
@@ -59,11 +58,12 @@ void loop() {
   while (Serial.available() == 0) {
   }
 
-  uint8_t Command_Byte_Dec = Serial.parseInt();
+  uint8_t Command_Byte_Dec = Serial.parseInt();            //here we read in the command from serial monitor
 
   Serial.println(Command_Byte_Dec);
 
-  switch (Command_Byte_Dec) {
+  switch (Command_Byte_Dec) {                              //We have two commands: one to send over a byte and a second one to receive data from a receiver
+    
     case 0:  //Turn on external control mode in the DTRTA
       Serial.println(" ");
       Serial.println("Sending a command byte over... ");
@@ -78,7 +78,7 @@ void loop() {
       //Note: while on official serial1 we would need a delay here, we can omit in our custom solution since the com functions are blocking
       break;
 
-    case 6:  //Data readout - timers
+    case 1:  //Data readout - timers
       Serial.println(" ");
       Serial.println("Requesting data bytes from receiver... ");
       SERCOM1_USART_write(0xF0);
