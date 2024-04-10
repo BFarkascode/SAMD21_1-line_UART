@@ -64,7 +64,7 @@ void loop() {
 
   switch (Command_Byte_Dec) {                              //We have two commands: one to send over a byte and a second one to receive data from a receiver
     
-    case 0:  //Turn on external control mode in the DTRTA
+    case 0:  //Send a command
       Serial.println(" ");
       Serial.println("Sending a command byte over... ");
       Serial.println(" ");
@@ -78,7 +78,7 @@ void loop() {
       //Note: while on official serial1 we would need a delay here, we can omit in our custom solution since the com functions are blocking
       break;
 
-    case 1:  //Data readout - timers
+    case 1:  //Data readout
       Serial.println(" ");
       Serial.println("Requesting data bytes from receiver... ");
       SERCOM1_USART_write(0xF0);
@@ -86,7 +86,7 @@ void loop() {
       SERCOM1_USART_write(0x30);  //00110000
       
       //------------Flip Rx/Tx pins------------//
-      while(!(SERCOM1->USART.INTFLAG.bit.TXC));             //we wait until all has been sent to the device
+      while(!(SERCOM1->USART.INTFLAG.bit.TXC));             //we wait until all has been sent to the receiver
       flip_Rx_Tx();                                         //then we flip IMMEDIATELLY
       //------------Flip Rx/Tx pins------------//
 
