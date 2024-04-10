@@ -7,7 +7,6 @@
  * Program version: 1.0
  */ 
 
-#include "arduino.h"
 #include <CustomSerial.h>
 
 //1)SERCOM USART init
